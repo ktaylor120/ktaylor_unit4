@@ -1,0 +1,37 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEditor;
+using UnityEngine;
+
+public class PlayerController : MonoBehaviour
+{
+    Rigidbody rbPlayer;
+    GameObject focalPoint;
+    Renderer rendererPlayer;
+    public float speed = 10.0f;
+    // Start is called before the first frame update
+    void Start()
+    {
+        rbPlayer = GetComponent<Rigidbody>();
+        rendererPlayer = GetComponent<Renderer>();
+        focalPoint = GameObject.Find("FocalPoint");
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        float forwardInput = Input.GetAxis("Vertical");
+        float magnitude = forwardInput * speed * Time.deltaTime;
+        rbPlayer.AddForce(focalPoint.transform.forward * magnitude, ForceMode.Impulse);
+
+        if(forwardInput > 0)
+        {
+            rendererPlayer.material.color = new Color(1f - forwardInput, 1f, 1f - forwardInput);
+        }
+        else
+        {
+            rendererPlayer.material.color = new Color(1f + forwardInput, 1f, 1f + forwardInput);
+        }
+
+    }
+}
