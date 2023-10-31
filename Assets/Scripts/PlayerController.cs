@@ -8,7 +8,7 @@ public class PlayerController : MonoBehaviour
     Rigidbody rbPlayer;
     GameObject focalPoint;
     Renderer rendererPlayer;
-    public float speed = 10.0f;
+    public float speed = 1f;
     // Start is called before the first frame update
     void Start()
     {
@@ -22,7 +22,7 @@ public class PlayerController : MonoBehaviour
     {
         float forwardInput = Input.GetAxis("Vertical");
         float magnitude = forwardInput * speed * Time.deltaTime;
-        rbPlayer.AddForce(focalPoint.transform.forward * magnitude, ForceMode.Impulse);
+        rbPlayer.AddForce(focalPoint.transform.forward * magnitude, ForceMode.Force);
 
         if(forwardInput > 0)
         {
