@@ -11,17 +11,13 @@ public class PlayerController : MonoBehaviour
     public float speed = 10f;
     public float powerUpSpeed = 10f;
     public GameObject PowerUpIndicator;
-
     bool hasPowerUp = false;
-    // Start is called before the first frame update
     void Start()
     {
         rbPlayer = GetComponent<Rigidbody>();
         rendererPlayer = GetComponent<Renderer>();
         focalPoint = GameObject.Find("FocalPoint");
     }
-
-    // Update is called once per frame
     void Update()
     {
         float forwardInput = Input.GetAxis("Vertical");
@@ -39,7 +35,6 @@ public class PlayerController : MonoBehaviour
         PowerUpIndicator.transform.position = transform.position;
 
     }
-
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("PowerUp"))
@@ -50,7 +45,6 @@ public class PlayerController : MonoBehaviour
             PowerUpIndicator.SetActive(true);
         }
     }
-
     private void OnCollisionEnter(Collision collision)
     {
         if (hasPowerUp && collision.gameObject.CompareTag("Enemy"))
