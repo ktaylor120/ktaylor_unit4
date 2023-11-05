@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
     Renderer rendererPlayer;
     public float speed = 10f;
     public float powerUpSpeed = 10f;
+    public GameObject PowerUpIndicator;
 
     bool hasPowerUp = false;
     // Start is called before the first frame update
@@ -35,6 +36,7 @@ public class PlayerController : MonoBehaviour
         {
             rendererPlayer.material.color = new Color(1f + forwardInput, 1f, 1f + forwardInput);
         }
+        PowerUpIndicator.transform.position = transform.position;
 
     }
 
@@ -44,6 +46,8 @@ public class PlayerController : MonoBehaviour
         {
             hasPowerUp = true;
             Destroy(other.gameObject);
+            StartCoroutine(PowerUpCountdown());
+            PowerUpIndicator.SetActive(true);
         }
     }
 
@@ -51,11 +55,17 @@ public class PlayerController : MonoBehaviour
     {
         if (hasPowerUp && collision.gameObject.CompareTag("Enemy"))
         {
-            Debug.Log("Okayer has collided with " + collision.gameObject + "wuth powerup set to:" + hasPowerUp);
+            Debug.Log("Player has collided with " + collision.gameObject + "with powerup set to:" + hasPowerUp);
             Rigidbody rbEnemy = collision.gameObject.GetComponent<Rigidbody>();
             Vector3 awayDir = collision.gameObject.transform.position - transform.position;
 
             rbEnemy.AddForce(awayDir * powerUpSpeed, ForceMode.Impulse);
         }
+    }
+    IEnumerator PowerUpCountdown()
+    {
+        yield return new WaitForSeconds(8);
+        hasPowerUp = false;
+        PowerUpIndicator.SetActive(false);
     }
 }
